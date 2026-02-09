@@ -13,6 +13,3 @@ plot (y);
 %hold on
 %plot (sig, fs);
 %hold off
-
-[h, fs_h] = audioread('Church.wav');
-h = sum(h)/2;
