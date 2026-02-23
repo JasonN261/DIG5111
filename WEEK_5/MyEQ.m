@@ -12,7 +12,7 @@ function [b,a] = MyEQ(Fs, f, dbGain, Q, method)
 
 switch method
 
-    case "peaking"
+    case "Peaking"
 
     b0 = 1 + alpha*A;
     b1 = -2*cos(w0);
@@ -21,14 +21,69 @@ switch method
     a1 = -2*cos(w0);
     a2 = 1 - alpha/A;
 
-    case "lpf"
+    case "LPF"
 
-    b0 = (1 - cos(w0))/2
-    b1 = 1 - cos(w0)
-    b2 = (1 - cos(w0))/2
+    b0 = (1 - cos(w0))/2;
+    b1 = 1 - cos(w0);
+    b2 = (1 - cos(w0))/2;
+    a0 = 1 + alpha;
+    a1 = -2*cos(w0);
+    a2 = 1 - alpha;
+
+    case "HPF"
+
+    b0 = (1 + cos(w0))/2;
+    b1 = -(1 + cos(w0));
+    b2 = (1 + cos(w0))/2;
+    a0 = 1 + alpha;
+    a1 = -2*cos(w0);
+    a2 = 1 - alpha;
+
+    case "BPF"
+
+    b0 = alpha;
+    b1 = 0;
+    b2 = -alpha;
+    a0 = 1 + alpha;
+    a1 = -2*cos(w0);
+    a2 = 1 - alpha;
+
+    case "LowShelf"
+
+    b0 = A*((A+1)-(A-1)*cos(w0)+2*sqrt(A)*alpha);
+    b1 = 2*A*((A-1)-(A+1)*cos(w0));
+    b2 = A*((A+1)-(A-1)*cos(w0)-2*sqrt(A)*alpha);
+    a0 = (A+1)+(A-1)*cos(w0)+2*sqrt(A)*alpha;
+    a1 = -2*((A-1)+(A+1)*cos(w0));
+    a2 = (A+1)+(A-1)*cos(w0)-2*sqrt(A)*alpha;
+
+    case "HighShelf"
+
+    b0 = A*((A+1)+(A-1)*cos(w0)+2*sqrt(A)*alpha);
+    b1 = -2*A*((A-1)+(A+1)*cos(w0));
+    b2 = A*((A+1)+(A-1)*cos(w0)-2*sqrt(A)*alpha);
+    a0 = (A+1)-(A-1)*cos(w0)+2*sqrt(A)*alpha;
+    a1 = 2*((A-1)-(A+1)*cos(w0));
+    a2 = (A+1)-(A-1)*cos(w0)-2*sqrt(A)*alpha;
+
+    case "APF"
+
+    b0 = 1 - alpha;
+    b1 = -2*cos(w0);
+    b2 = 1 + alpha;
+    a0 = 1 + alpha;
+    a1 = -2*cos(w0);
+    a2 = 1 - alpha;
+
+    case "Notch"
+
+    b0 = 1
+    b1 = -2*cos(w0)
+    b2 = 1
     a0 = 1 + alpha
     a1 = -2*cos(w0)
     a2 = 1 - alpha 
+
 end
 
     b = [b0,b1,b2]/a0;
